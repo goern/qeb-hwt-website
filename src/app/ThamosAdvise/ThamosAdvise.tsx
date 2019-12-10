@@ -22,6 +22,7 @@ import TOML from '@iarna/toml';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
+const humanizeDuration = require('humanize-duration')
 
 export interface IThamosAdvise {
     adviserDocumentId?: {};
@@ -128,7 +129,7 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
                         <Text component="p">Error: {this.state.errorMessage}</Text>
 
                     </EmptyStateBody>
-                    <Button variant="primary" component="a" href="/?adviser_document_id=39042b51">try this one</Button>
+                    <Button variant="primary" component="a" href="/?adviser_document_id=f4994f74">try this one</Button>
                     <EmptyStateSecondaryActions>
                         <Button variant="link" component="a" href="https://thoth-station.ninja/" target="_blank">Project Thoth</Button>
                         <Button variant="link" component="a" href="https://thoth-station.ninja/docs/developers/adviser/" target="_blank">Adviser Documentation</Button>
@@ -144,7 +145,7 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
             <Grid gutter="md">
                 <GridItem span={12}>
                     <Text component="h2">the <b>Build Environment</b></Text>
-                    <Text component="p">We have analysed an application stack running on <em>{this.state.advise.metadata.os_release.name} {this.state.advise.metadata.os_release.version}</em>, running Python ({this.state.advise.metadata.python.implementation_name}) {this.state.advise.metadata.python.major}.{this.state.advise.metadata.python.minor}.{this.state.advise.metadata.python.micro}. It was Adviser Job ID <em>{this.state.advise.metadata.document_id}</em>, by thoth-analyser v{this.state.advise.metadata.analyzer_version}.
+                    <Text component="p">We have analysed an application stack running on <em>{this.state.advise.metadata.os_release.name} {this.state.advise.metadata.os_release.version}</em>, running Python ({this.state.advise.metadata.python.implementation_name}) {this.state.advise.metadata.python.major}.{this.state.advise.metadata.python.minor}.{this.state.advise.metadata.python.micro}. It was Adviser Job ID <em>{this.state.advise.metadata.document_id}</em>, by thoth-analyser v{this.state.advise.metadata.analyzer_version}. The adviser job was performed in {humanizeDuration(this.state.advise.metadata.duration * 1000)}.
                         </Text>
                 </GridItem>
                 <GridItem span={8}>
