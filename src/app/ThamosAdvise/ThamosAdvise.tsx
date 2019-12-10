@@ -12,6 +12,7 @@ import {
     EmptyStateBody,
     EmptyStateSecondaryActions
 } from '@patternfly/react-core';
+import { Spinner } from '@patternfly/react-core/dist/esm/experimental';
 import { CubesIcon } from '@patternfly/react-icons';
 
 import axios from 'axios';
@@ -24,6 +25,7 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 export interface IThamosAdvise {
     adviserDocumentId?: {};
+    serviceEnvironment?: {};
 }
 
 
@@ -114,7 +116,7 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
 
     render() {
         if (this.state.isLoading) {
-            return (<Text component="p">Loading ...</Text>);
+            return (<Spinner size="lg" />);
         }
 
         if (this.state.isError) {
