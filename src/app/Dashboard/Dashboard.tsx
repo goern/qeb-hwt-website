@@ -15,7 +15,7 @@ const Dashboard: React.FunctionComponent<{}> = () => (
       <TextContent>
         <Text component={TextVariants.h1}>Qeb-Hwt</Text>
         <Text component={TextVariants.p}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque quaerat, ipsa quod atque natus eius omnis amet nisi aperiam impedit corrupti fugit itaque reprehenderit dolor nulla. Dolor voluptatum quasi ex.
+          Qeb-Hwt will use the Thoth Service API to get advises on your application stack.
       </Text>
       </TextContent>
       <PageSection>
@@ -23,7 +23,7 @@ const Dashboard: React.FunctionComponent<{}> = () => (
       </PageSection>
       <PageSection>
         <TextContent>
-          <Text component={TextVariants.p}>
+          <Text component={TextVariants.small}>
             Qeb-Hwt website: git commit hash: {COMMITHASH}, version: {VERSION}
           </Text>
         </TextContent>

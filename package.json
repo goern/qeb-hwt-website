@@ -81,6 +81,7 @@
         "webpack-merge": "^4.1.4"
     },
     "dependencies": {
+        "@iarna/toml": "^2.2.3",
         "@patternfly/react-core": "^3.77.2",
         "@patternfly/react-icons": "^3.14.18",
         "@patternfly/react-styles": "^3.5.7",
@@ -88,6 +89,7 @@
         "git-revision-webpack-plugin": "^3.0.4",
         "query-string": "^6.9.0",
         "react-router-dom": "^5.0.1",
-        "react-router-last-location": "^2.0.1"
+        "react-router-last-location": "^2.0.1",
+        "react-syntax-highlighter": "^11.0.2"
     }
 }

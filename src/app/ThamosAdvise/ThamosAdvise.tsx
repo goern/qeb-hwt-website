@@ -15,7 +15,11 @@ import {
 import { CubesIcon } from '@patternfly/react-icons';
 
 import axios from 'axios';
-import queryString from 'query-string'
+import queryString from 'query-string';
+
+import TOML from '@iarna/toml';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 
 export interface IThamosAdvise {
@@ -73,10 +77,9 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
             const product = result.report.products[0]; // FIXME it should be the product with the highest score
 
             return (
-                <div>
-                    <Text component="h2">Pipfile.lock</Text>
-                    <Text component="p"><code>{JSON.stringify(product.project.requirements_locked)}</code></Text>
-                </div>
+                <SyntaxHighlighter language="javascript" style={docco}>
+                    {JSON.stringify(product.project.requirements_locked, null, 3)}
+                </SyntaxHighlighter>
             )
         }
     }
@@ -89,7 +92,6 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
 
             return (
                 <div>
-                    <Text component="h2">Advises</Text>
                     <Text component="p">{product.justification}</Text>
                 </div>
             )
@@ -97,17 +99,15 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
     }
 
     dumpPipfile(result: {}) {
-        if (result.report) {
-            const product = result.report.products[0]; // FIXME it should be the product with the highest score
-
+        if (result.parameters.project) {
             return (
-                <Text component={TextVariants.blockquote}>
-                    {JSON.stringify(product.project.requirements)}
-                </Text>
+                <SyntaxHighlighter language="toml" style={docco}>
+                    {TOML.stringify(result.parameters.project.requirements)}
+                </SyntaxHighlighter>
             )
         } else {
             return (
-                <Text component={TextVariants.blockquote}>{JSON.stringify(result.parameters.project.requirements)}</Text>
+                <Text component={TextVariants.p}>&nbsp;</Text>
             )
         }
     }
@@ -126,7 +126,7 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
                         <Text component="p">Error: {this.state.errorMessage}</Text>
 
                     </EmptyStateBody>
-                    <Button variant="primary" component="a" href="/?adviser_document_id=10f758c6">try this one</Button>
+                    <Button variant="primary" component="a" href="/?adviser_document_id=39042b51">try this one</Button>
                     <EmptyStateSecondaryActions>
                         <Button variant="link" component="a" href="https://thoth-station.ninja/" target="_blank">Project Thoth</Button>
                         <Button variant="link" component="a" href="https://thoth-station.ninja/docs/developers/adviser/" target="_blank">Adviser Documentation</Button>
@@ -136,24 +136,25 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
             );
         }
 
-        // TODO nice view if we cant get the adviser result from API
+        // TODO one view while advise is still running...
 
         return (
             <Grid gutter="md">
                 <GridItem span={12}>
-                    <Text component="h2">Environment</Text>
+                    <Text component="h2">the <b>Build Environment</b></Text>
                     <Text component="p">We have analysed an application stack running on <em>{this.state.advise.metadata.os_release.name} {this.state.advise.metadata.os_release.version}</em>, running Python ({this.state.advise.metadata.python.implementation_name}) {this.state.advise.metadata.python.major}.{this.state.advise.metadata.python.minor}.{this.state.advise.metadata.python.micro}. It was Adviser Job ID <em>{this.state.advise.metadata.document_id}</em>, by thoth-analyser v{this.state.advise.metadata.analyzer_version}.
                         </Text>
                 </GridItem>
                 <GridItem span={8}>
-
-                    <Text component="h2">Pipfile</Text>
+                    <Text component="h2">your <code><b>Pipfile</b></code></Text>
                     {this.dumpPipfile(this.state.advise.result)}
                 </GridItem>
                 <GridItem span={4} rowSpan={2}>
+                    <Text component="h2">our <code><b>Advises</b></code></Text>
                     {this.adviseOrError(this.state.advise.result)}
                 </GridItem>
                 <GridItem span={8}>
+                    <Text component="h2">our <code><b>Pipfile.lock</b></code></Text>
                     {this.pipfileLockOrError(this.state.advise.result)}
                 </GridItem>
             </Grid>
