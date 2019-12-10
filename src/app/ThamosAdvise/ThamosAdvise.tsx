@@ -1,5 +1,18 @@
 import * as React from 'react';
-import { Grid, GridItem, Text } from '@patternfly/react-core';
+import {
+    Grid,
+    GridItem,
+    Text,
+    TextVariants,
+    Title,
+    Button,
+    EmptyState,
+    EmptyStateVariant,
+    EmptyStateIcon,
+    EmptyStateBody,
+    EmptyStateSecondaryActions
+} from '@patternfly/react-core';
+import { CubesIcon } from '@patternfly/react-icons';
 
 import axios from 'axios';
 import queryString from 'query-string'
@@ -83,14 +96,20 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
         }
     }
 
-    dumpPipfile(report: {}) {
-        const product = report.products[0]; // FIXME it should be the product with the highest score
+    dumpPipfile(result: {}) {
+        if (result.report) {
+            const product = result.report.products[0]; // FIXME it should be the product with the highest score
 
-        return (
-            <Text component="blockquote">
-                {JSON.stringify(product.project.requirements)}
-            </Text>
-        )
+            return (
+                <Text component={TextVariants.blockquote}>
+                    {JSON.stringify(product.project.requirements)}
+                </Text>
+            )
+        } else {
+            return (
+                <Text component={TextVariants.blockquote}>{JSON.stringify(result.parameters.project.requirements)}</Text>
+            )
+        }
     }
 
     render() {
@@ -99,13 +118,27 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
         }
 
         if (this.state.isError) {
-            return (<Text component="p">Error: {this.state.errorMessage}</Text>);
+            return (
+                <EmptyState variant={EmptyStateVariant.full}>
+                    <EmptyStateIcon icon={CubesIcon} />
+                    <Title headingLevel="h5" size="lg">No Adviser Document found</Title>
+                    <EmptyStateBody>
+                        <Text component="p">Error: {this.state.errorMessage}</Text>
+
+                    </EmptyStateBody>
+                    <Button variant="primary" component="a" href="/?adviser_document_id=10f758c6">try this one</Button>
+                    <EmptyStateSecondaryActions>
+                        <Button variant="link" component="a" href="https://thoth-station.ninja/" target="_blank">Project Thoth</Button>
+                        <Button variant="link" component="a" href="https://thoth-station.ninja/docs/developers/adviser/" target="_blank">Adviser Documentation</Button>
+                        <Button variant="link" component="a" href="https://github.com/thoth-station" target="_blank">GitHub</Button>
+                    </EmptyStateSecondaryActions>
+                </EmptyState>
+            );
         }
 
         // TODO nice view if we cant get the adviser result from API
 
         return (
-
             <Grid gutter="md">
                 <GridItem span={12}>
                     <Text component="h2">Environment</Text>
@@ -115,7 +148,7 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
                 <GridItem span={8}>
 
                     <Text component="h2">Pipfile</Text>
-                    {this.dumpPipfile(this.state.advise.result.report)}
+                    {this.dumpPipfile(this.state.advise.result)}
                 </GridItem>
                 <GridItem span={4} rowSpan={2}>
                     {this.adviseOrError(this.state.advise.result)}
