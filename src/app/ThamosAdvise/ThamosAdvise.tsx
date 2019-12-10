@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Grid, GridItem, Text } from '@patternfly/react-core';
 
+import axios from 'axios';
+import queryString from 'query-string'
+
 
 export interface IThamosAdvise {
     adviserDocumentId?: {};
@@ -14,7 +17,10 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
         this.state = {
             advise: {},
             isLoading: true,
-            documentId: '',
+            isError: false,
+            errorMessage: "",
+            documentId: "",
+            documentIdQueryString: null,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -23,19 +29,33 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
 
     componentDidMount() {
         this.setState({ documentId: this.props.adviserDocumentId });
-        this.fetchData();
+
+        const value = queryString.parse(window.location.search); // TODO not sure if this is a good way...
+
+        if (value.adviser_document_id) {
+            this.setState({ documentIdQueryString: value.adviser_document_id.toString() });
+            this.fetchData(value.adviser_document_id.toString());
+        } else {
+            this.setState({ isLoading: false, isError: true, errorMessage: "no adviser_document_id provides as query parameter!" });
+        }
     }
 
-    fetchData() {
+    fetchData(adviser_document_id: string) {
+        console.log(adviser_document_id);
         this.setState({ isLoading: true });
 
         console.log(this.props.adviserDocumentId);
-        fetch('https://stage.thoth-station.ninja/api/v1/advise/python/adviser-' + this.props.adviserDocumentId)
-            .then(res => res.json())
-            .then((data) => {
+
+        axios.get('https://stage.thoth-station.ninja/api/v1/advise/python/adviser-' + adviser_document_id)
+            .then(res => {
+                const data = res.data;
                 this.setState({ advise: data, isLoading: false })
             })
-            .catch(console.log)
+            .catch(error => {
+                // handle error
+                this.setState({ isLoading: false, isError: true, errorMessage: error.response.data.error })
+            })
+
     }
 
     handleChange(event) {
@@ -87,7 +107,11 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
 
     render() {
         if (this.state.isLoading) {
-            return <p>Loading ...</p>;
+            return (<Text component="p">Loading ...</Text>);
+        }
+
+        if (this.state.isError) {
+            return (<Text component="p">Error: {this.state.errorMessage}</Text>);
         }
 
         // TODO nice view if we cant get the adviser result from API
