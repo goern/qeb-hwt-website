@@ -22,9 +22,6 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
             documentId: "",
             documentIdQueryString: null,
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -58,19 +55,10 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
 
     }
 
-    handleChange(event) {
-        this.setState({ documentId: event.target.value });
-    }
-
-    handleSubmit(event) {
-        this.fetchData();
-        event.preventDefault();
-    }
-
     pipfileLockOrError(result: {}) {
-        const product = result.report.products[0]; // FIXME it should be the product with the highest score
-
         if (!result.error) {
+            const product = result.report.products[0]; // FIXME it should be the product with the highest score
+
             return (
                 <div>
                     <Text component="h2">Pipfile.lock</Text>
@@ -81,11 +69,11 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
     }
 
     adviseOrError(result: {}) {
-        const product = result.report.products[0]; // FIXME it should be the product with the highest score
-
         if (result.error) {
             return (<Text component="p">Error in advise: {result.error_msg}</Text>)
         } else {
+            const product = result.report.products[0]; // FIXME it should be the product with the highest score
+
             return (
                 <div>
                     <Text component="h2">Advises</Text>
