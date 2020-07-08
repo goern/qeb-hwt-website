@@ -24,11 +24,14 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const humanizeDuration = require('humanize-duration')
 
+const STAGE_API_BASE = "https://stage.thoth-station.ninja/api/v1";
+const PREPROD_API_BASE = "https://api.preprod.thoth-station.ninja/test/api/v1";
+const MOCKUP_API_BASE = "https://qeb-hwt.thoth-station.ninja/api/v1";
+
 export interface IThamosAdvise {
     adviserDocumentId?: {};
     serviceEnvironment?: {};
 }
-
 
 class ThamosAdvise extends React.Component<IThamosAdvise> {
     constructor(props) {
@@ -62,12 +65,9 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
         console.log(adviser_document_id);
         this.setState({ isLoading: true });
 
-        console.log(this.props.adviserDocumentId);
-
-        axios.get('https://stage.thoth-station.ninja/api/v1/advise/python/adviser-' + adviser_document_id, { timeout: 10000 })
+        axios.get(PREPROD_API_BASE + "/advise/python/adviser-" + adviser_document_id, { timeout: 10000 })
             .then(res => {
                 const data = res.data;
-                console.log(data)
 
                 if (data.status) {
                     if (data.status.state == "running") {
