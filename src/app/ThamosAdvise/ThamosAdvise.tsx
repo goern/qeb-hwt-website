@@ -104,13 +104,15 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
 
     adviseOrError(result: {}) {
         if (result.error) {
-            return (<Text component="p">Error in advise: {result.error_msg}</Text>)
+            return (<Text component={TextVariants.p}>Error in advise: {result.error_msg}</Text>)
         } else {
             const product = result.report.products[0]; // FIXME it should be the product with the highest score
 
+            console.log(product.justification)
+
             return (
                 <React.Fragment>
-                    <Text component="p">{product.justification}</Text>
+                    <Text component={TextVariants.p}>{product.justification[0].message}</Text>
                 </React.Fragment>
             )
         }
