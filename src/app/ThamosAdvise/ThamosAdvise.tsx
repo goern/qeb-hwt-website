@@ -24,8 +24,7 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const humanizeDuration = require('humanize-duration')
 
-const STAGE_API_BASE = "https://stage.thoth-station.ninja/api/v1";
-const PREPROD_API_BASE = "https://api.preprod.thoth-station.ninja/test/api/v1";
+const PREPROD_API_BASE = "https://api.preprod.thoth-station.ninja/khemenu/api/v1";
 const MOCKUP_API_BASE = "https://qeb-hwt.thoth-station.ninja/api/v1";
 
 export interface IThamosAdvise {
