@@ -1,12 +1,12 @@
 # Qeb-Hwt
 
-Try http://qeb-hwt.thoth-station.ninja/?adviser_document_id=01cfc09e
+Try http://qeb-hwt.thoth-station.ninja/?adviser_document_id=ff78f479
 
 ## Quick-start
 ```bash
 npm install yarn -g # ensure you have yarn on your machine globally
-git clone https://github.com/patternfly/patternfly-react-seed # clone the project
-cd patternfly-react-seed # navigate into the project directory
+git clone https://github.com/goern/qeb-hwt-website # clone the project
+cd qeb-hwt-website # navigate into the project directory
 yarn # install patternfly-react-seed dependencies
 yarn build # build the project
 yarn start # start the development server
