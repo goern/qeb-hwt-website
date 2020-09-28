@@ -24,7 +24,7 @@ import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const humanizeDuration = require('humanize-duration')
 
-const PREPROD_API_BASE = "https://api.preprod.thoth-station.ninja/khemenu/api/v1";
+const API_BASE = "https://api.moc.thoth-station.ninja/api/v1";
 const MOCKUP_API_BASE = "https://qeb-hwt.thoth-station.ninja/api/v1";
 
 export interface IThamosAdvise {
@@ -64,7 +64,7 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
         console.log(adviser_document_id);
         this.setState({ isLoading: true });
 
-        axios.get(PREPROD_API_BASE + "/advise/python/adviser-" + adviser_document_id, { timeout: 10000 })
+        axios.get(API_BASE + "/advise/python/adviser-" + adviser_document_id, { timeout: 10000 })
             .then(res => {
                 const data = res.data;
 
@@ -146,7 +146,7 @@ class ThamosAdvise extends React.Component<IThamosAdvise> {
                     <EmptyStateBody>
                         <Text component={TextVariants.p}>Error: {this.state.errorMessage}</Text>
                     </EmptyStateBody>
-                    <Button variant="primary" component="a" href="/?adviser_document_id=f4994f74">try this one</Button>
+                    <Button variant="primary" component="a" href="/?adviser_document_id=ae329d5b">try this one</Button>
                     <EmptyStateSecondaryActions>
                         <Button variant="link" component="a" href="https://thoth-station.ninja/" target="_blank">Project Thoth</Button>
                         <Button variant="link" component="a" href="https://thoth-station.ninja/docs/developers/adviser/" target="_blank">Adviser Documentation</Button>
