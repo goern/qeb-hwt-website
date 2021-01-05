@@ -85,7 +85,7 @@
         "@patternfly/react-core": "^3.158.4",
         "@patternfly/react-icons": "^3.15.17",
         "@patternfly/react-styles": "^3.7.14",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "git-revision-webpack-plugin": "^3.0.6",
         "humanize-duration": "^3.23.1",
         "query-string": "^6.13.3",
